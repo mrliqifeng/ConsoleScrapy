@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<constant name="struts.objectFactory" value="spring"></constant>
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+	<constant name="struts.ui.theme" value="simple"></constant>
+	
+	<package name="user" namespace="/" extends="struts-default">
+		<action name ="login" class="userAction" method="login">
+			<result name="success" type="redirectAction">${nextDispose}</result>
+			<result name="input">/page/login.jsp</result>
+		</action>
+			<action name ="register" class="userAction" method="register">
+				<result name="success" >page/login.jsp</result>
+				<result name="error" >page/fail.jsp</result>
+		</action>
+	</package> 	
+		
+	<package name="taskinfoAction" namespace="/" extends="struts-default">
+		<action name ="pagging" class="taskinfoAction" method="pagging">
+			<result name="success">page/scrapy_list.jsp</result>
+		</action>
+		<action name ="detail" class="taskinfoAction" method="detail">
+			<result name="success">page/modify.jsp</result>
+		</action>
+		<action name ="control" class="taskinfoAction" method="control">
+			<result name="success">page/message.jsp</result>
+		</action>	
+		<action name ="preview" class="taskinfoAction" method="preview">
+			<result name="success">page/preview_data.jsp</result>
+			<result name="fail">page/message.jsp</result>
+		</action>
+		<action name ="deleteScrapy" class="taskinfoAction" method="deleteScrapy">
+			<result name="success" type="redirectAction">pagging</result>
+			<result name="fail">page/message.jsp</result>
+		</action>
+		<action name ="downloadCsv" class="taskinfoAction" method="downloadCsv">
+			<result name="success" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">csvInputStream</param>
+				<param name="contentDisposition">attachment;filename=${downFileName}</param>
+				<param name="bufferSize">4096</param>
+			</result>
+			<result name="fail">page/message.jsp</result>
+		</action>
+		
+	</package>
+			
+</struts>

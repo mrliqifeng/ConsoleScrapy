@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx = "http://www.springframework.org/schema/tx"
+       xmlns:aop = "http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"
+    default-init-method="init"
+       default-destroy-method="destroy">
+       
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    	<property name="configLocation" value="classpath:hibernate.cfg.xml">
+    	</property>
+    </bean>
+    
+    <bean id="usersDaoImpl" class="com.njci.student.dao.impl.UsersDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"></property>
+    </bean> 
+
+    
+    <bean id="taskInfoDaoImpl" class="com.njci.student.dao.impl.TaskInfoDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"></property>
+    </bean> 
+    
+     <bean id="taskStatusDaoImpl" class="com.njci.student.dao.impl.TaskStatusDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"></property>
+    </bean> 
+    
+    <bean id="taskinfoAction" class="com.njci.student.action.TaskInfoAction">
+    	<property name="taskStatusDaoImpl" ref="taskStatusDaoImpl"></property>
+    	<property name="taskInfoDaoImpl" ref="taskInfoDaoImpl"></property>
+    </bean>
+         
+    <bean id="userAction" class="com.njci.student.action.UserAction">
+    	<property name="userDao" ref="usersDaoImpl"></property>
+    </bean>
+    
+</beans>
